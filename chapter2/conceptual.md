@@ -2,18 +2,18 @@ Chapter 2 Exercises
 ================
 
 -   [Conceptual Exercises](#conceptual-exercises)
-    -   [Question 1](#question-1)
+    -   [Question 1 (in progress)](#question-1-in-progress)
     -   [Question 2](#question-2)
     -   [Question 3](#question-3)
     -   [Question 4](#question-4)
-    -   [Question 5](#question-5)
+    -   [Question 5 (in progress)](#question-5-in-progress)
     -   [Question 6](#question-6)
     -   [Question 7](#question-7)
 
 Conceptual Exercises
 --------------------
 
-### Question 1
+### Question 1 (in progress)
 
 **For each of parts (a) through (d), indicate whether we would generally expect the performance of a flexible statistical learning method to be better or worse than an inflexible method. Justify your answer.**
 
@@ -131,7 +131,7 @@ As the flexibility of the statistical learning method increases:
 
 ------------------------------------------------------------------------
 
-### Question 5
+### Question 5 (in progress)
 
 **What are the advantages and disadvantages of a very flexible (versus a less flexible) approach for regression or classification?**
 **Under what circumstances might a more flexible approach be preferred to a less flexible approach? When might a less flexible approach be preferred?**
@@ -244,5 +244,7 @@ Suppose we wish to use this data set to make a prediction for Y when X1 = X2 = X
 </table>
 
 **7b:** With K = 1, the prediction is Green, since observation 5 is the nearest neighbour to the test point based on lowest Euclidean distance.
+
 **7c:** With K = 3, the prediction is Red, since the conditional probability is ⅔ for Red and ⅓ for Green, as 2 out of the 3 nearest neighbours are measured as Red for Y.
+
 **7d:** The best value for K would be small. The most accurate KNN decision boundary needs to be highly flexible in order to best estimate the non-linear Bayes decision boundary. A small value for K allows the classifier to produce a adequately flexible decision boundary.

@@ -189,5 +189,7 @@ d. If the Bayes decision boundary in this problem is highly non-linear, then wou
 | 6    | -1  | -1  | -1  | 1.732   |
 
 **7b:**  With K = 1, the prediction is Green, since observation 5 is the nearest neighbour to the test point based on lowest Euclidean distance.  
+
 **7c:**  With K = 3, the prediction is Red, since the conditional probability is ⅔ for Red and ⅓ for Green, as 2 out of the 3 nearest neighbours are measured as Red for Y.  
+
 **7d:**    The best value for K would be small. The most accurate KNN decision boundary needs to be highly flexible in order to best estimate the non-linear Bayes decision boundary. A small value for K allows the classifier to produce a adequately flexible decision boundary.
