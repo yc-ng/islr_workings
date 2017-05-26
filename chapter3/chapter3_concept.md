@@ -4,7 +4,8 @@ Chapter 3 Exercises
 -   [Question 1](#question-1)
 -   [Question 2 (in progress)](#question-2-in-progress)
 -   [Question 3](#question-3)
--   [Question 4 (in progress)](#question-4-in-progress)
+-   [Question 4](#question-4)
+-   [Question 5](#question-5)
 
 Question 1
 ----------
@@ -56,27 +57,62 @@ Question 3
     3.  **For a fixed value of IQ and GPA, males earn more on average than females provided that the GPA is high enough.**
     4.  For a fixed value of IQ and GPA, females earn more on average than males provided that the GPA is high enough.
 
-2.  Predict the salary of a female with IQ of 110 and a GPA of 4.0.
-3.  True or false: Since the coefficient for the GPA/IQ interaction term is very small, there is very little evidence of an interaction effect. Justify your answer.
+2.  **Predict the salary of a female with IQ of 110 and a GPA of 4.0.**
+3.  **True or false: Since the coefficient for the GPA/IQ interaction term is very small, there is very little evidence of an interaction effect. Justify your answer.**
 
 3a.
-![](ch3_ex_3a_eqn.png)
+![](equations/ch3_ex_3a_eqn.png)
 <!-- $$ \text{Salary} = 50 + 20 \times \text{GPA} + 0.07 \times \text{IQ} + 35 \times \text{Gender} + 0.01 \times (\text{IQ}\times\text{GPA}) - 10\times(\text{Gender}\times\text{GPA}) $$ --> For a fixed value of IQ and GPA, the coefficient for Gender will be (35 - 10 × GPA), which means that it will become negative when the value of GPA is greater than 3.5. Since Gender is coded as 1 for Female, a negative coefficient at high GPA means that females will earn less than males (i.e. males will earn more than females) on average when the GPA is high enough.
 
 3b.
-![](ch3_ex_3b_eqn.png)
+![](equations/ch3_ex_3b_eqn.png)
 <!-- $$ \hat{y} = 50 + 20(4.0) + 0.07(110) + 35(1) + 0.01(110 \times 4.0) - 10(1 \times 4.0) = 137.1 $$ --> The predicted salary would be **$137,100** since Y is expressed in thousands of dollars.
 
 3c.
 **False**. Whether an interaction effect is statistically significant is not dependent on the magnitude of the coefficient, but on **how far the coefficient is from 0 in terms of its standard error**. If the standard error of the coefficient is small, then we can infer that the interaction effect is present.
 We can conduct a hypothesis test, with the null hypothesis that there is no relationship between the interaction effect and the response variable. We can divide the coefficient by its standard error to obtain a *t-statistic*, which yields a *p-value* based on the number of degrees of freedom. If the standard error is small enough, the t-statistic will be large and the p-value will be small enough for us to reject the null hypothesis.
 
-Question 4 (in progress)
-------------------------
+Question 4
+----------
 
 **I collect a set of data (n = 100 observations) containing a single predictor and a quantitative response. I then fit a linear regression model to the data, as well as a separate cubic regression, i.e. Y = β<sub>0</sub> + β<sub>1</sub>X + β<sub>2</sub>X<sup>2</sup> + β<sub>3</sub>X<sup>3</sup> + ϵ.**
 
 <!-- $$ Y = \beta_0 + \beta_1X + \beta_2X^{2} + \beta_3X^{3} + \epsilon $$ -->
-1.  Suppose that the true relationship between X and Y is linear, i.e. Y = β<sub>0</sub> + β<sub>1</sub>X + ϵ. Consider the training residual sum of squares (RSS) for the linear regression, and also the training RSS for the cubic regression. Would we expect one to be lower than the other, would we expect them to be the same, or is there not enough information to tell? Justify your answer.
+1.  **Suppose that the true relationship between X and Y is linear, i.e. Y = β<sub>0</sub> + β<sub>1</sub>X + ϵ. Consider the training residual sum of squares (RSS) for the linear regression, and also the training RSS for the cubic regression. Would we expect one to be lower than the other, would we expect them to be the same, or is there not enough information to tell? Justify your answer.**
 
-The cubic regression may exhibit a lower training RSS. Even if the true relationship between X and Y is linear, the data points may not fall close to a straight line due to the irreducible error ϵ. Therefore, the linear regression model may not fit the points as closely as a more flexible method like the cubic regression model.
+The cubic regression model may exhibit a lower training RSS than the linear model. Even if the true relationship between X and Y is linear, the data points may not fall close to a straight line due to the irreducible error ϵ. Thus, we expect the residuals, and thus the RSS, to be greater for the linear model than for the cubic model which is more flexible.
+
+1.  **Answer (a) using test rather than training RSS.**
+
+The linear regression model is expected to have lower test RSS. Since the true relationship between X and Y is linear, the linear model is still expected to be a good fit for the test data. On the other hand, the cubic regression model captures background patterns caused by the irreducible error ϵ in the training data, which are probably not present in the test data; the residuals generated for the test data are likely to be larger for the cubic model as a result.
+
+1.  **Suppose that the true relationship between X and Y is not linear, but we don’t know how far it is from linear. Consider the training RSS for the linear regression, and also the training RSS for the cubic regression. Would we expect one to be lower than the other, would we expect them to be the same, or is there not enough information to tell? Justify your answer.**
+
+The cubic regression model is expected to have the lower training RSS. Since the true relationship between X and Y is not linear, the linear model is not expected to fit the data well and instead generate high residuals and RSS for the training data. The cubic model is more flexible and should produce lower residuals and RSS.
+
+1.  **Answer (c) using test rather than training RSS.**
+
+There is not enough information to tell. If, for example, the relationship resembles the logistic function (an 'S' shaped curve), the cubic model might not fit the data as well as the linear model.
+
+Question 5
+----------
+
+**Consider the fitted values that result from performing linear regression without an intercept. In this setting, the ith fitted value takes the form**
+![](equations/ch3_ex_5_qn1.png)
+<!-- $$ \hat{y}_i = x_i \hat{\beta} $$ --> **where**
+![](equations/ch3_ex_5_qn2.png) <!-- $$ \hat{\beta} = \frac{(\sum_{i'=1}^{n}x_{i'} y_{i'})}{(\sum_{i'=1}^{n}x_{i'}^2)} $$ -->
+
+**Show that we can write**
+
+![](equations/ch3_ex_5_qn3.png) <!-- $$ \hat{y}_i = \sum_{i'=1}^{n} a_{i'}y_{i'} $$ -->
+
+**What is *a<sub>i'</sub>*?**
+
+Expand the numerator of the ̂β term, and multiply x<sub>i</sub> across the the individual terms. We can then rewrite the expression in terms of y<sub>i'</sub> and a<sub>i'</sub> as shown below:
+
+![](equations/ch3_ex_5_answer1.png)
+<!-- \hat{y}_i = x_i \hat{\beta} = x_i\frac{(\sum_{i'=1}^{n}x_{i'} y_{i'})}{(\sum_{i'=1}^{n}x_{i'}^2)} -->
+
+![](equations/ch3_ex_5_answer2.png)
+<!-- = y_1\frac{x_ix_1}{\sum_{i'=1}^{n}x_{i'}^2} + y_2\frac{x_ix_2}{\sum_{i'=1}^{n}x_{i'}^2} + \dots + y_n\frac{x_ix_n}{\sum_{i'=1}^{n}x_{i'}^2} --> ![](equations/ch3_ex_5_answer3.png)
+<!-- = \sum_{i'=1}^{n} a_{i'}y_{i'} \text{  , where  } a_{i'} = \frac{x_ix_{i'}}{\sum_{i'=1}^{n}x_{i'}^2} -->
