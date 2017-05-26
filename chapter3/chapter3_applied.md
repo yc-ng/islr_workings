@@ -5,6 +5,13 @@ Chapter 3 Exercises - Applied
     -   [Part 8a](#part-8a)
     -   [Part 8b](#part-8b)
     -   [Part 8c](#part-8c)
+-   [Question 9](#question-9)
+    -   [Part 9a](#part-9a)
+    -   [Part 9b](#part-9b)
+    -   [Part 9c](#part-9c)
+    -   [Part 9d](#part-9d)
+    -   [Part 9e](#part-9e)
+    -   [Part 9f](#part-9f)
 
 Question 8
 ----------
@@ -129,7 +136,7 @@ plot(mpg ~ horsepower, data = Auto, pch = 1, cex = 0.6,
 abline(mpg_hp_lm)
 ```
 
-![](readme_files/figure-markdown_github/q8%20plot-1.png)
+![](chapter3_applied_files/figure-markdown_github/q8%20plot-1.png)
 
 ### Part 8c
 
@@ -140,7 +147,7 @@ par(mfrow = c(2,2))
 plot(mpg_hp_lm)
 ```
 
-![](readme_files/figure-markdown_github/q8%20diagnostic%20plot-1.png)
+![](chapter3_applied_files/figure-markdown_github/q8%20diagnostic%20plot-1.png)
 
 A brief description of the diagnostic plots shown above:
 
@@ -152,3 +159,121 @@ A brief description of the diagnostic plots shown above:
 From the diagnostic plots, we can see the following issues:
 
 -   The plot of residuals against fitted values appear to exhibit a pattern which suggests that our linear model is not a good fit for the relationship between `horsepower` and `mpg`: the pattern in the residuals may be due to a non-linear relationship that the model does not capture.
+
+Question 9
+----------
+
+This question involves the use of multiple linear regression on the `Auto` data set.
+
+### Part 9a
+
+**Produce a scatterplot matrix which includes all of the variables in the data set.**
+
+``` r
+plot(Auto)
+```
+
+![](chapter3_applied_files/figure-markdown_github/q9%20scatterplot-1.png)
+
+### Part 9b
+
+**Compute the matrix of correlations between the variables using the function cor() . You will need to exclude the `name` variable, which is qualitative.**
+
+``` r
+auto_noname <- Auto[, -9] # new data frame that excludes name variable (9th column)
+cor(auto_noname)
+```
+
+    ##                     mpg  cylinders displacement horsepower     weight
+    ## mpg           1.0000000 -0.7776175   -0.8051269 -0.7784268 -0.8322442
+    ## cylinders    -0.7776175  1.0000000    0.9508233  0.8429834  0.8975273
+    ## displacement -0.8051269  0.9508233    1.0000000  0.8972570  0.9329944
+    ## horsepower   -0.7784268  0.8429834    0.8972570  1.0000000  0.8645377
+    ## weight       -0.8322442  0.8975273    0.9329944  0.8645377  1.0000000
+    ## acceleration  0.4233285 -0.5046834   -0.5438005 -0.6891955 -0.4168392
+    ## year          0.5805410 -0.3456474   -0.3698552 -0.4163615 -0.3091199
+    ## origin        0.5652088 -0.5689316   -0.6145351 -0.4551715 -0.5850054
+    ##              acceleration       year     origin
+    ## mpg             0.4233285  0.5805410  0.5652088
+    ## cylinders      -0.5046834 -0.3456474 -0.5689316
+    ## displacement   -0.5438005 -0.3698552 -0.6145351
+    ## horsepower     -0.6891955 -0.4163615 -0.4551715
+    ## weight         -0.4168392 -0.3091199 -0.5850054
+    ## acceleration    1.0000000  0.2903161  0.2127458
+    ## year            0.2903161  1.0000000  0.1815277
+    ## origin          0.2127458  0.1815277  1.0000000
+
+### Part 9c
+
+**Use the lm() function to perform a multiple linear regression with mpg as the response and all other variables except name as the predictors. Use the summary() function to print the results.**
+
+``` r
+auto_multiple_lm <- lm(mpg ~ ., data = auto_noname)
+(auto_mlm_summary <- summary(auto_multiple_lm)) # assigns and prints the summary
+```
+
+    ## 
+    ## Call:
+    ## lm(formula = mpg ~ ., data = auto_noname)
+    ## 
+    ## Residuals:
+    ##     Min      1Q  Median      3Q     Max 
+    ## -9.5903 -2.1565 -0.1169  1.8690 13.0604 
+    ## 
+    ## Coefficients:
+    ##                Estimate Std. Error t value Pr(>|t|)    
+    ## (Intercept)  -17.218435   4.644294  -3.707  0.00024 ***
+    ## cylinders     -0.493376   0.323282  -1.526  0.12780    
+    ## displacement   0.019896   0.007515   2.647  0.00844 ** 
+    ## horsepower    -0.016951   0.013787  -1.230  0.21963    
+    ## weight        -0.006474   0.000652  -9.929  < 2e-16 ***
+    ## acceleration   0.080576   0.098845   0.815  0.41548    
+    ## year           0.750773   0.050973  14.729  < 2e-16 ***
+    ## origin         1.426141   0.278136   5.127 4.67e-07 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Residual standard error: 3.328 on 384 degrees of freedom
+    ## Multiple R-squared:  0.8215, Adjusted R-squared:  0.8182 
+    ## F-statistic: 252.4 on 7 and 384 DF,  p-value: < 2.2e-16
+
+Comment on the output. For instance:
+
+1.  Is there a relationship between the predictors and the response?
+2.  Which predictors appear to have a statistically significant relationship to the response?
+3.  What does the coefficient for the year variable suggest?
+
+The F-statistic for the overall model is very high, suggesting that there is a relationship between the predictors and the response (rejecting the null hypothesis that all of the predictors are not related to the response)
+
+Based on the p-values for the t-statistic, we think the following predictors may have a statistically significant relationship with the response:
+
+-   `displacement`
+-   `weight`
+-   `year`
+-   `origin`
+
+The coefficient for year is 0.751, which implies that the average miles per gallon increases by this amount every year when all other predictors are held constant.
+
+### Part 9d
+
+**Use the plot() function to produce diagnostic plots of the linear regression fit. Comment on any problems you see with the fit. Do the residual plots suggest any unusually large outliers? Does the leverage plot identify any observations with unusually high leverage?**
+
+``` r
+par(mfrow = c(2,2))
+plot(auto_multiple_lm)
+```
+
+![](chapter3_applied_files/figure-markdown_github/q9%20diagnostic%20plot-1.png)
+
+-   The residuals-fitted plot shows a slight pattern which suggests the presence of relationships not accounted for by our model (such as non-linear predictors).
+-   There are some observations with particularly large residuals (especially index 327 which is marked on all four plots).
+-   Index 14 is a high-leverage observation but the residual is not considered significant enough to severely influence the regression model.
+
+### Part 9e
+
+Use the \* and : symbols to fit linear regression models with interaction effects. Do any interactions appear to be statistically significant?
+
+<!-- test combinations of one interaction term, then spread the table -->
+### Part 9f
+
+Try a few different transformations of the variables, such as log(X), √X, X<sup>2</sup> . Comment on your findings.
