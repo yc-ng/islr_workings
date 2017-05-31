@@ -4,11 +4,12 @@ Chapter 3 Exercises - Applied
 -   [Question 8](#question-8)
 -   [Question 9](#question-9)
 -   [Question 10](#question-10)
+-   [Question 11](#question-11)
 
 Question 8
 ----------
 
-**This question involves the use of simple linear regression on the `Auto` data set.**
+*This question involves the use of simple linear regression on the `Auto` data set.*
 
 We start off by loading the data and taking a look at its structure:
 
@@ -38,7 +39,7 @@ str(Auto)
 
 ### Part 8a
 
-**Use the lm() function to perform a simple linear regression with mpg as the response and horsepower as the predictor. Use the summary() function to print the results. Comment on the output.**
+*Use the `lm()` function to perform a simple linear regression with mpg as the response and horsepower as the predictor. Use the `summary()` function to print the results. Comment on the output.*
 
 ``` r
 mpg_hp_lm <- lm(mpg ~ horsepower, data = Auto)
@@ -64,12 +65,12 @@ summary(mpg_hp_lm)
     ## Multiple R-squared:  0.6059, Adjusted R-squared:  0.6049 
     ## F-statistic: 599.7 on 1 and 390 DF,  p-value: < 2.2e-16
 
-**For example:**
+*For example:*
 
-1.  Is there a relationship between the predictor and the response?
-2.  How strong is the relationship between the predictor and the response?
-3.  Is the relationship between the predictor and the response positive or negative?
-4.  What is the predicted mpg associated with a horsepower of 98? What are the associated 95% confidence and prediction intervals?
+1.  *Is there a relationship between the predictor and the response?*
+2.  *How strong is the relationship between the predictor and the response?*
+3.  *Is the relationship between the predictor and the response positive or negative?*
+4.  *What is the predicted mpg associated with a horsepower of 98? What are the associated 95% confidence and prediction intervals?*
 
 The relation between the predictor `horsepower` and response `mpg` is negative, as shown by the estimated coefficient **-0.1578447** which is less than 0.
 
@@ -119,7 +120,7 @@ Based on the output, for `horsepower` of 98, the predicted `mpg` value would be 
 
 ### Part 8b
 
-**Plot the response and the predictor. Use the abline() function to display the least squares regression line.**
+*Plot the response and the predictor. Use the `abline()` function to display the least squares regression line.*
 
 ``` r
 plot(mpg ~ horsepower, data = Auto, pch = 1, cex = 0.6,
@@ -132,7 +133,7 @@ abline(mpg_hp_lm)
 
 ### Part 8c
 
-**Use the plot() function to produce diagnostic plots of the least squares regression fit. Comment on any problems you see with the fit.**
+*Use the `plot()` function to produce diagnostic plots of the least squares regression fit. Comment on any problems you see with the fit.*
 
 ``` r
 par(mfrow = c(2,2))
@@ -151,6 +152,7 @@ A brief description of the diagnostic plots shown above:
 From the diagnostic plots, we can see the following issues:
 
 -   The plot of residuals against fitted values appear to exhibit a pattern which suggests that our linear model is not a good fit for the relationship between `horsepower` and `mpg`: the pattern in the residuals may be due to a non-linear relationship that the model does not capture.
+-   The response-predictor plot generated in (b) suggests that the relationship between `mpg` and `horsepower` may not be linear; the rate of change in `mpg` decreases as `horsepower` increases, so a reciprocal function might produce a better fit.
 
 Question 9
 ----------
@@ -159,7 +161,7 @@ This question involves the use of multiple linear regression on the `Auto` data 
 
 ### Part 9a
 
-**Produce a scatterplot matrix which includes all of the variables in the data set.**
+*Produce a scatterplot matrix which includes all of the variables in the data set.*
 
 ``` r
 plot(Auto)
@@ -169,35 +171,35 @@ plot(Auto)
 
 ### Part 9b
 
-**Compute the matrix of correlations between the variables using the function cor() . You will need to exclude the `name` variable, which is qualitative.**
+*Compute the matrix of correlations between the variables using the function `cor()`. You will need to exclude the `name` variable, which is qualitative.*
 
 ``` r
 auto_noname <- Auto[, -9] # new data frame that excludes name variable (9th column)
-cor(auto_noname)
+signif(cor(auto_noname), 4)
 ```
 
-    ##                     mpg  cylinders displacement horsepower     weight
-    ## mpg           1.0000000 -0.7776175   -0.8051269 -0.7784268 -0.8322442
-    ## cylinders    -0.7776175  1.0000000    0.9508233  0.8429834  0.8975273
-    ## displacement -0.8051269  0.9508233    1.0000000  0.8972570  0.9329944
-    ## horsepower   -0.7784268  0.8429834    0.8972570  1.0000000  0.8645377
-    ## weight       -0.8322442  0.8975273    0.9329944  0.8645377  1.0000000
-    ## acceleration  0.4233285 -0.5046834   -0.5438005 -0.6891955 -0.4168392
-    ## year          0.5805410 -0.3456474   -0.3698552 -0.4163615 -0.3091199
-    ## origin        0.5652088 -0.5689316   -0.6145351 -0.4551715 -0.5850054
-    ##              acceleration       year     origin
-    ## mpg             0.4233285  0.5805410  0.5652088
-    ## cylinders      -0.5046834 -0.3456474 -0.5689316
-    ## displacement   -0.5438005 -0.3698552 -0.6145351
-    ## horsepower     -0.6891955 -0.4163615 -0.4551715
-    ## weight         -0.4168392 -0.3091199 -0.5850054
-    ## acceleration    1.0000000  0.2903161  0.2127458
-    ## year            0.2903161  1.0000000  0.1815277
-    ## origin          0.2127458  0.1815277  1.0000000
+    ##                  mpg cylinders displacement horsepower  weight
+    ## mpg           1.0000   -0.7776      -0.8051    -0.7784 -0.8322
+    ## cylinders    -0.7776    1.0000       0.9508     0.8430  0.8975
+    ## displacement -0.8051    0.9508       1.0000     0.8973  0.9330
+    ## horsepower   -0.7784    0.8430       0.8973     1.0000  0.8645
+    ## weight       -0.8322    0.8975       0.9330     0.8645  1.0000
+    ## acceleration  0.4233   -0.5047      -0.5438    -0.6892 -0.4168
+    ## year          0.5805   -0.3456      -0.3699    -0.4164 -0.3091
+    ## origin        0.5652   -0.5689      -0.6145    -0.4552 -0.5850
+    ##              acceleration    year  origin
+    ## mpg                0.4233  0.5805  0.5652
+    ## cylinders         -0.5047 -0.3456 -0.5689
+    ## displacement      -0.5438 -0.3699 -0.6145
+    ## horsepower        -0.6892 -0.4164 -0.4552
+    ## weight            -0.4168 -0.3091 -0.5850
+    ## acceleration       1.0000  0.2903  0.2127
+    ## year               0.2903  1.0000  0.1815
+    ## origin             0.2127  0.1815  1.0000
 
 ### Part 9c
 
-**Use the lm() function to perform a multiple linear regression with mpg as the response and all other variables except name as the predictors. Use the summary() function to print the results.**
+*Use the `lm()` function to perform a multiple linear regression with mpg as the response and all other variables except name as the predictors. Use the `summary()` function to print the results.*
 
 ``` r
 auto_multiple_lm <- lm(mpg ~ ., data = auto_noname)
@@ -244,11 +246,11 @@ Based on the p-values for the t-statistic, we think the following predictors may
 -   `year`
 -   `origin`
 
-The coefficient for year is 0.751, which implies that the average miles per gallon increases by this amount every year when all other predictors are held constant.
+The coefficient for `year` is 0.751, which implies that the average miles per gallon increases by this amount every year when all other predictors are held constant.
 
 ### Part 9d
 
-**Use the plot() function to produce diagnostic plots of the linear regression fit. Comment on any problems you see with the fit. Do the residual plots suggest any unusually large outliers? Does the leverage plot identify any observations with unusually high leverage?**
+*Use the `plot()` function to produce diagnostic plots of the linear regression fit. Comment on any problems you see with the fit. Do the residual plots suggest any unusually large outliers? Does the leverage plot identify any observations with unusually high leverage?*
 
 ``` r
 par(mfrow = c(2,2))
@@ -261,9 +263,9 @@ plot(auto_multiple_lm)
 -   There are some observations with particularly large residuals (especially index 327 which is marked on all four plots).
 -   Index 14 is a high-leverage observation but the residual is not considered significant enough to severely influence the regression model.
 
-### Part 9e
+### Part 9e (IP)
 
-**Use the `\*` and `:` symbols to fit linear regression models with interaction effects. Do any interactions appear to be statistically significant?**
+*Use the `\*` and `:` symbols to fit linear regression models with interaction effects. Do any interactions appear to be statistically significant?*
 
 For example, we may want to find out if there may be a significant interaction between `displacement` and `horsepower` (in other words, does the relationship between `displacement` and `mpg` change depending on the `horsepower` of the vehicle?) We use the `update()` and `summary()` functions to refit the model:
 
@@ -305,11 +307,11 @@ The interaction term `horsepower:weight` appears to be significant based on its 
 It's also worth noting that `horsepower` itself is also now a significant predictor, whereas `displacement` is no longer significant under this model.
 
 <!-- test combinations of one interaction term, then spread the table -->
-### Part 9f
+### Part 9f (IP)
 
-**Try a few different transformations of the variables, such as log(X), √X, X<sup>2</sup> . Comment on your findings.**
+*Try a few different transformations of the variables, such as log(X), √X, X<sup>2</sup> . Comment on your findings.*
 
-We can refit the model a quadratic transformation term `horsepower^2^` to observe the fit of the new model:
+We can refit the model with a quadratic transformation term `horsepower^2^` to observe the fit of the new model:
 
 ``` r
 summary(
@@ -438,7 +440,11 @@ contrasts(Carseats$US)
 
 *Write out the model in equation form, being careful to handle the qualitative variables properly.*
 
-<!-- x_i_ =\begin{cases}1 & \text{if }i\text{th store is urban}\\0 & \text{if }i\text{th store is rural}\end{cases}  -->
+![](equations/ch3_ex_10c_answer.png) <!-- $$ y_i = 13.043 - (0.054 \times x_{i1}) - (0.022 \times x_{i2}) + (1.201 \times x_{i3}) + \epsilon $$ -->
+
+![](equations/ch3_ex_10c_qualitative1.png) <!-- $$ \text{where } x_{i2} =\begin{cases}1 & \text{if }i\text{th store is in an urban location}\\0 & \text{if }i\text{th store is in a rural location}\end{cases} $$ -->
+
+![](equations/ch3_ex_10c_qualitative2.png) <!-- $$ \text{where } x_{i3} =\begin{cases}1 & \text{if }i\text{th store is in the US}\\0 & \text{if }i\text{th store is not in the US}\end{cases} $$ -->
 
 ### Part 10d
 
@@ -511,3 +517,100 @@ plot(carseats_smaller_lm, id.n = 5)
 
 From the residuals-fitted values plot, we see that there are some outliers (indices 51 and 377 show the greatest residuals), however most of these outliers do not have significant leverage.
 From the residuals-leverage plot, there is one high-leverage observation but it does not have a residual that is large enough to exert significant influence on the model.
+
+Question 11
+-----------
+
+*In this problem we will investigate the t-statistic for the null hypothesis H<sub>0</sub> : β = 0 in simple linear regression without an intercept. To begin, we generate a predictor x and a response y as follows.*
+
+``` r
+set.seed(1)
+x <- rnorm(100)
+y <- 2 * x + rnorm(100)
+```
+
+### Part 11a
+
+*Perform a simple linear regression of y onto x , without an intercept. Report the coefficient estimate ˆβ, the standard error of this coefficient estimate, and the t-statistic and p-value associated with the null hypothesis H<sub>0</sub>: β = 0. Comment on these results. (You can perform regression without an intercept using the command `lm(y ~ x + 0)`.)*
+
+``` r
+nointercept_yx_lm <- lm(y ~ x + 0)
+summary(nointercept_yx_lm)$coefficients
+```
+
+    ##   Estimate Std. Error  t value     Pr(>|t|)
+    ## x 1.993876  0.1064767 18.72593 2.642197e-34
+
+The estimated coefficient ˆβ is very close to the true value of β (which is 2). The standard error for ˆβ is also very small relative to the estimated value, which creates a very large t-statistic and very small p-value.
+The likelihood of obtaining this estimate of β, assuming the null hypothesis is true, would be this p-value, and so we can infer that this is unlikely and thus reject the null hypothesis. Therefore we conclude that there is some relationship between X and Y.
+
+### Part 11b
+
+*Now perform a simple linear regression of x onto y without an intercept, and report the coefficient estimate, its standard error, and the corresponding t-statistic and p-values associated with the null hypothesis H<sub>0</sub>: β = 0. Comment on these results.*
+
+``` r
+nointercept_xy_lm <- lm(x ~ y + 0)
+summary(nointercept_xy_lm)$coefficients
+```
+
+    ##    Estimate Std. Error  t value     Pr(>|t|)
+    ## y 0.3911145 0.02088625 18.72593 2.642197e-34
+
+The t-statistic and p-value are in fact the same as those obtained in (a). Based on the small p-value, we can also reject the null hypothesis that β = 0, and likewise conclude that there is some relationship between Y and X.
+
+### Part 11c
+
+*What is the relationship between the results obtained in (a) and (b)?*
+
+The estimated coefficient obtained in (b) is approximately the reciprocal of the estimated coefficient in (a), because the linear model used in (b) is the inverse of the model in (a).
+
+### Part 11d (IP)
+
+For the regression of Y onto X without an intercept, the t-statistic for H<sub>0</sub>: β = 0 takes the form ˆβ/SE(ˆβ), where ˆβ is given by (3.38), and where
+
+![](equations/ch3_ex_11d_qn1.png) <!-- $$ \text{SE}(\hat{\beta}) =  \sqrt{\frac{\sum_{i=1}^{n} (y_i - x_i\hat{\beta})^2}{(n-1)\sum_{i'=1}^{n} x_{i'}^2}} $$ -->
+
+(These formulas are slightly different from those given in Sections 3.1.1 and 3.1.2, since here we are performing regression without an intercept.) Show algebraically, and confirm numerically in R , that the t-statistic can be written as
+
+### Part 11e
+
+*Using the results from (d), argue that the t-statistic for the regression of `y` onto `x` is the same as the t-statistic for the regression of `x` onto `y`.*
+
+The above expression for the t-statistic would yield the same value if we replaced x<sub>i</sub> with y<sub>i</sub> and y<sub>i</sub> with x<sub>i</sub> (when we perform regression of `x` onto `y`). Therefore the t-statistic would be the same for both regression models.
+
+### Part 11f
+
+*In `R`, show that when regression is performed with an intercept, the t-statistic for H<sub>0</sub>: β<sub>1</sub> = 0 is the same for the regression of `y` onto `x` as it is for the regression of `x` onto `y`.*
+
+We generate a predictor `x1` and response `y1` as follows:
+
+``` r
+set.seed(2)
+x1 <- rnorm(100)
+y1 <- 2 * x1 + 3 + # example intercept is 3
+    rnorm(100) # error term
+```
+
+The regression of `y` onto `x` yields the following t-statistic:
+
+``` r
+intercept_yx_lm <- lm(y1 ~ x1)
+summary(intercept_yx_lm)$coefficients
+```
+
+    ##             Estimate Std. Error  t value     Pr(>|t|)
+    ## (Intercept) 3.027769 0.09891863 30.60868 5.842604e-52
+    ## x1          1.952897 0.08566001 22.79823 5.778822e-41
+
+The regression of `x` onto `y` yields the following t-statistic:
+
+``` r
+intercept_xy_lm <- lm(x1 ~ y1)
+summary(intercept_xy_lm)$coefficients
+```
+
+    ##               Estimate Std. Error   t value     Pr(>|t|)
+    ## (Intercept) -1.3093167 0.07281857 -17.98053 8.443464e-33
+    ## y1           0.4308278 0.01889742  22.79823 5.778822e-41
+
+We can see from the above output that the t-statistic for β<sub>1</sub> is the same for both regression models.
