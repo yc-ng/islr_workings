@@ -263,7 +263,7 @@ plot(auto_multiple_lm)
 -   There are some observations with particularly large residuals (especially index 327 which is marked on all four plots).
 -   Index 14 is a high-leverage observation but the residual is not considered significant enough to severely influence the regression model.
 
-### Part 9e (IP)
+### Part 9e (in progress)
 
 *Use the `\*` and `:` symbols to fit linear regression models with interaction effects. Do any interactions appear to be statistically significant?*
 
@@ -307,7 +307,7 @@ The interaction term `horsepower:weight` appears to be significant based on its 
 It's also worth noting that `horsepower` itself is also now a significant predictor, whereas `displacement` is no longer significant under this model.
 
 <!-- test combinations of one interaction term, then spread the table -->
-### Part 9f (IP)
+### Part 9f (in progress)
 
 *Try a few different transformations of the variables, such as log(X), √X, X<sup>2</sup> . Comment on your findings.*
 
@@ -564,7 +564,7 @@ The t-statistic and p-value are in fact the same as those obtained in (a). Based
 
 The estimated coefficient obtained in (b) is approximately the reciprocal of the estimated coefficient in (a), because the linear model used in (b) is the inverse of the model in (a).
 
-### Part 11d (IP)
+### Part 11d (in progress)
 
 For the regression of Y onto X without an intercept, the t-statistic for H<sub>0</sub>: β = 0 takes the form ˆβ/SE(ˆβ), where ˆβ is given by (3.38), and where
 
