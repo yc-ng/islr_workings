@@ -5,6 +5,7 @@ Chapter 3 Exercises - Applied
 -   [Question 9](#question-9)
 -   [Question 10](#question-10)
 -   [Question 11](#question-11)
+-   [Question 12](#question-12)
 
 Question 8
 ----------
@@ -614,3 +615,86 @@ summary(intercept_xy_lm)$coefficients
     ## y1           0.4308278 0.01889742  22.79823 5.778822e-41
 
 We can see from the above output that the t-statistic for β<sub>1</sub> is the same for both regression models.
+
+Question 12
+-----------
+
+*This problem involves simple linear regression without an intercept.*
+
+### Part 12a
+
+*Recall that the coefficient estimate ˆβ for the linear regression of Y onto X without an intercept is given by (3.38). Under what circumstance is the coefficient estimate for the regression of X onto Y the same as the coefficient estimate for the regression of Y onto X?*
+
+ˆβ for the linear regression of Y onto X is given by:
+
+![](equations/ch3_ex_5_qn2.png)
+
+If we were to perform regression of X onto Y: the coefficient estimate ˆβ<sub>y</sub> would be:
+
+![](equations/ch3_ex_12a_answer1.png) <!-- \hat{\beta}_y = \frac{(\sum_{i'=1}^{n}y_{i'} x_{i'})}{(\sum_{i'=1}^{n}y_{i'}^2)} -->
+
+The two coefficient estimates would be the the same if:
+
+-   the true linear coefficient is close to 1 (since one coefficient is the reciprocal of the other)
+-   the sum of squares for X and sum of squares for Y are the same
+
+![](equations/ch3_ex_12a_answer2.png)
+
+### Part 12b
+
+*Generate an example in `R` with n = 100 observations in which the coefficient estimate for the regression of X onto Y is different from the coefficient estimate for the regression of Y onto X.*
+
+``` r
+set.seed(12)
+x_12b <- rnorm(100)
+y_12b <- x_12b + rnorm(100, mean = 0, sd = 1)  # Y = X + e
+coefficients(lm(y_12b ~ x_12b))
+```
+
+    ## (Intercept)       x_12b 
+    ##  0.01026637  1.01838800
+
+``` r
+coefficients(lm(x_12b ~ y_12b))
+```
+
+    ## (Intercept)       y_12b 
+    ## -0.02194273  0.42960401
+
+### Part 12c (Needs review)
+
+*Generate an example in `R` with n = 100 observations in which the coefficient estimate for the regression of X onto Y is the same as the coefficient estimate for the regression of Y onto X.*
+
+``` r
+# construct x and y off a common set of random values so that the linear coefficient is close to 1
+set.seed(123)
+base <- rnorm(100)
+
+# x contains some random noise
+x_12c <- base + rnorm(100, mean = 0, sd = 0.01)
+# sum of squares for x
+SSx_12c <- sum(x_12c^2) 
+
+# construct first 99 values of y
+y_12c <- base[1:99] + rnorm(99, mean = 0, sd = 0.01)
+# 100th value of y is determined such that the sums of squares would be equal,
+# and based on whether the corresponding x value is positive/negative
+if(x_12c[100] < 0){
+    last_y <- -(sqrt(SSx_12c - sum(y_12c^2)))
+} else {
+    last_y <- sqrt(SSx_12c - sum(y_12c^2))
+}
+y_12c <- append(y_12c, last_y)
+
+coefficients(lm(y_12c ~ x_12c))
+```
+
+    ## (Intercept)       x_12c 
+    ## 0.001852879 0.999692890
+
+``` r
+coefficients(lm(x_12c ~ y_12c))
+```
+
+    ##  (Intercept)        y_12c 
+    ## -0.001833896  1.000092705
