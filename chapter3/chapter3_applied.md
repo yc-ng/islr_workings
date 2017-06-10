@@ -272,40 +272,76 @@ For example, we may want to find out if there may be a significant interaction b
 
 ``` r
 summary(
-    update(auto_multiple_lm, ~ . + weight:horsepower)
+    update(auto_multiple_lm, ~ . + displacement:weight)
     )
 ```
 
     ## 
     ## Call:
     ## lm(formula = mpg ~ cylinders + displacement + horsepower + weight + 
-    ##     acceleration + year + origin + horsepower:weight, data = auto_noname)
+    ##     acceleration + year + origin + displacement:weight, data = auto_noname)
     ## 
     ## Residuals:
-    ##    Min     1Q Median     3Q    Max 
-    ## -8.589 -1.617 -0.184  1.541 12.001 
+    ##     Min      1Q  Median      3Q     Max 
+    ## -9.9027 -1.8092 -0.0946  1.5549 12.1687 
     ## 
     ## Coefficients:
-    ##                     Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept)        2.876e+00  4.511e+00   0.638 0.524147    
-    ## cylinders         -2.955e-02  2.881e-01  -0.103 0.918363    
-    ## displacement       5.950e-03  6.750e-03   0.881 0.378610    
-    ## horsepower        -2.313e-01  2.363e-02  -9.791  < 2e-16 ***
-    ## weight            -1.121e-02  7.285e-04 -15.393  < 2e-16 ***
-    ## acceleration      -9.019e-02  8.855e-02  -1.019 0.309081    
-    ## year               7.695e-01  4.494e-02  17.124  < 2e-16 ***
-    ## origin             8.344e-01  2.513e-01   3.320 0.000986 ***
-    ## horsepower:weight  5.529e-05  5.227e-06  10.577  < 2e-16 ***
+    ##                       Estimate Std. Error t value Pr(>|t|)    
+    ## (Intercept)         -5.389e+00  4.301e+00  -1.253   0.2109    
+    ## cylinders            1.175e-01  2.943e-01   0.399   0.6899    
+    ## displacement        -6.837e-02  1.104e-02  -6.193 1.52e-09 ***
+    ## horsepower          -3.280e-02  1.238e-02  -2.649   0.0084 ** 
+    ## weight              -1.064e-02  7.136e-04 -14.915  < 2e-16 ***
+    ## acceleration         6.724e-02  8.805e-02   0.764   0.4455    
+    ## year                 7.852e-01  4.553e-02  17.246  < 2e-16 ***
+    ## origin               5.610e-01  2.622e-01   2.139   0.0331 *  
+    ## displacement:weight  2.269e-05  2.257e-06  10.054  < 2e-16 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
-    ## Residual standard error: 2.931 on 383 degrees of freedom
-    ## Multiple R-squared:  0.8618, Adjusted R-squared:  0.859 
-    ## F-statistic: 298.6 on 8 and 383 DF,  p-value: < 2.2e-16
+    ## Residual standard error: 2.964 on 383 degrees of freedom
+    ## Multiple R-squared:  0.8588, Adjusted R-squared:  0.8558 
+    ## F-statistic: 291.1 on 8 and 383 DF,  p-value: < 2.2e-16
 
-The interaction term `horsepower:weight` appears to be significant based on its p-value; in addition the R-squared value has also risen by about .04, which suggests that our new model might be a slightly better fit than the model used in Part 9c.
+The interaction term `displacement:weight` appears to be significant based on its p-value; in addition the R-squared value has also risen by about .04, which suggests that our new model might be a slightly better fit than the model used in Part 9c.
 
-It's also worth noting that `horsepower` itself is also now a significant predictor, whereas `displacement` is no longer significant under this model.
+It's also worth noting that `horsepower` itself is also now a significant predictor.
+
+Fitting various interaction effects into the model yields the following p-values, as well as their respective model fit:
+
+    ##                         cylinders displacement horsepower    weight
+    ## displacement:horsepower   0.03275    2.795e-11  8.858e-20 1.710e-06
+    ## displacement:weight       0.68990    1.521e-09  8.404e-03 5.491e-40
+    ## displacement:year         0.96950    8.780e-13  1.559e-02 3.870e-19
+    ## displacement:origin       0.14060    1.172e-04  2.659e-01 3.657e-17
+    ## horsepower:weight         0.91840    3.786e-01  2.389e-20 5.793e-42
+    ## horsepower:year           0.78800    4.640e-01  4.334e-16 1.420e-16
+    ## horsepower:origin         0.08226    8.452e-01  1.378e-05 3.520e-12
+    ## weight:year               0.68810    6.629e-02  2.591e-02 1.942e-10
+    ## weight:origin             0.06820    2.588e-01  4.321e-01 1.065e-02
+    ## year:origin               0.11510    3.806e-02  3.058e-01 1.485e-20
+    ##                         acceleration      year    origin interaction   RSE
+    ## displacement:horsepower      0.01921 9.949e-47 6.683e-03   3.387e-24 2.912
+    ## displacement:weight          0.44550 9.824e-50 3.306e-02   2.928e-21 2.964
+    ## displacement:year            0.25680 1.222e-35 4.337e-06   1.247e-11 3.138
+    ## displacement:origin          0.64290 9.224e-41 1.759e-05   4.383e-03 3.297
+    ## horsepower:weight            0.30910 3.244e-49 9.858e-04   4.119e-23 2.931
+    ## horsepower:year              0.75120 8.524e-36 5.655e-06   6.663e-17 3.042
+    ## horsepower:origin            0.24340 1.085e-41 1.092e-16   8.442e-13 3.116
+    ## weight:year                  0.11640 1.649e-28 8.297e-06   1.473e-14 3.084
+    ## weight:origin                0.69890 1.875e-41 2.604e-07   3.114e-05 3.257
+    ## year:origin                  0.34750 2.263e-04 2.978e-03   1.064e-03 3.286
+    ##                            rsq adj_rsq
+    ## displacement:horsepower 0.8636  0.8608
+    ## displacement:weight     0.8588  0.8558
+    ## displacement:year       0.8417  0.8384
+    ## displacement:origin     0.8252  0.8216
+    ## horsepower:weight       0.8618  0.8590
+    ## horsepower:year         0.8512  0.8481
+    ## horsepower:origin       0.8438  0.8406
+    ## weight:year             0.8470  0.8439
+    ## weight:origin           0.8294  0.8258
+    ## year:origin             0.8264  0.8228
 
 <!-- test combinations of one interaction term, then spread the table -->
 ### Part 9f (in progress)

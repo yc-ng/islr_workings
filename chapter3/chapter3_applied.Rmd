@@ -11,6 +11,7 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE)
 library(MASS)
 library(ISLR)
 library(dplyr)
+source("interaction.R")
 ```
 
 ## Question 8
@@ -166,13 +167,21 @@ For example, we may want to find out if there may be a significant interaction b
 
 ```{r}
 summary(
-    update(auto_multiple_lm, ~ . + weight:horsepower)
+    update(auto_multiple_lm, ~ . + displacement:weight)
     )
 ```
 
-The interaction term `horsepower:weight` appears to be significant based on its p-value; in addition the R-squared value has also risen by about .04, which suggests that our new model might be a slightly better fit than the model used in Part 9c.
+The interaction term `displacement:weight` appears to be significant based on its p-value; in addition the R-squared value has also risen by about .04, which suggests that our new model might be a slightly better fit than the model used in Part 9c.
 
-It's also worth noting that `horsepower` itself is also now a significant predictor, whereas `displacement` is no longer significant under this model.
+It's also worth noting that `horsepower` itself is also now a significant predictor.
+
+Fitting various interaction effects into the model yields the following p-values, as well as their respective model fit:
+
+```{r echo = FALSE}
+possible_preds <- c("displacement", "horsepower", "weight", "year", "origin")
+build_values_matrix(possible_preds, auto_multiple_lm)
+```
+
 
 <!-- test combinations of one interaction term, then spread the table -->
 
