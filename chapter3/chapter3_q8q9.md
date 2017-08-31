@@ -1,11 +1,17 @@
-Chapter 3 Exercises - Applied
+Chapter 3 Exercises - Questions 8, 9
 ================
 
 -   [Question 8](#question-8)
+    -   [Part 8a](#part-8a)
+    -   [Part 8b](#part-8b)
+    -   [Part 8c](#part-8c)
 -   [Question 9](#question-9)
--   [Question 10](#question-10)
--   [Question 11](#question-11)
--   [Question 12](#question-12)
+    -   [Part 9a](#part-9a)
+    -   [Part 9b](#part-9b)
+    -   [Part 9c](#part-9c)
+    -   [Part 9d](#part-9d)
+    -   [Part 9e (in progress)](#part-9e-in-progress)
+    -   [Part 9f (in progress)](#part-9f-in-progress)
 
 Question 8
 ----------
@@ -130,7 +136,7 @@ plot(mpg ~ horsepower, data = Auto, pch = 1, cex = 0.6,
 abline(mpg_hp_lm)
 ```
 
-![](chapter3_applied_files/figure-markdown_github/q8%20plot-1.png)
+![](chapter3_q8q9_files/figure-markdown_github-ascii_identifiers/q8%20plot-1.png)
 
 ### Part 8c
 
@@ -141,7 +147,7 @@ par(mfrow = c(2,2))
 plot(mpg_hp_lm)
 ```
 
-![](chapter3_applied_files/figure-markdown_github/q8%20diagnostic%20plot-1.png)
+![](chapter3_q8q9_files/figure-markdown_github-ascii_identifiers/q8%20diagnostic%20plot-1.png)
 
 A brief description of the diagnostic plots shown above:
 
@@ -168,7 +174,7 @@ This question involves the use of multiple linear regression on the `Auto` data 
 plot(Auto)
 ```
 
-![](chapter3_applied_files/figure-markdown_github/q9%20scatterplot-1.png)
+![](chapter3_q8q9_files/figure-markdown_github-ascii_identifiers/q9%20scatterplot-1.png)
 
 ### Part 9b
 
@@ -258,7 +264,7 @@ par(mfrow = c(2,2))
 plot(auto_multiple_lm)
 ```
 
-![](chapter3_applied_files/figure-markdown_github/q9%20diagnostic%20plot-1.png)
+![](chapter3_q8q9_files/figure-markdown_github-ascii_identifiers/q9%20diagnostic%20plot-1.png)
 
 -   The residuals-fitted plot shows a slight pattern which suggests the presence of relationships not accounted for by our model (such as non-linear predictors).
 -   There are some observations with particularly large residuals (especially index 327 which is marked on all four plots).
@@ -384,353 +390,3 @@ summary(
     ## F-statistic: 282.8 on 8 and 383 DF,  p-value: < 2.2e-16
 
 The transformed predictor appears to be significant as well, with the R-squared value increasing by about 0.3.
-
-Question 10
------------
-
-*This question should be answered using the `Carseats` data set.*
-
-We load the `Carseats` data set and examine the structure:
-
-``` r
-data("Carseats")
-str(Carseats)
-```
-
-    ## 'data.frame':    400 obs. of  11 variables:
-    ##  $ Sales      : num  9.5 11.22 10.06 7.4 4.15 ...
-    ##  $ CompPrice  : num  138 111 113 117 141 124 115 136 132 132 ...
-    ##  $ Income     : num  73 48 35 100 64 113 105 81 110 113 ...
-    ##  $ Advertising: num  11 16 10 4 3 13 0 15 0 0 ...
-    ##  $ Population : num  276 260 269 466 340 501 45 425 108 131 ...
-    ##  $ Price      : num  120 83 80 97 128 72 108 120 124 124 ...
-    ##  $ ShelveLoc  : Factor w/ 3 levels "Bad","Good","Medium": 1 2 3 3 1 1 3 2 3 3 ...
-    ##  $ Age        : num  42 65 59 55 38 78 71 67 76 76 ...
-    ##  $ Education  : num  17 10 12 14 13 16 15 10 10 17 ...
-    ##  $ Urban      : Factor w/ 2 levels "No","Yes": 2 2 2 2 2 1 2 2 1 1 ...
-    ##  $ US         : Factor w/ 2 levels "No","Yes": 2 2 2 2 1 2 1 2 1 2 ...
-
-We can see that our variables of interest can be classified as quantitative and categorical:
-
--   `Sales` - Unit sales (in thousands) at each location, quantitative response
--   `Price` - Price company charges for car seats at each site, quantitative predictor
--   `Urban` - A factor with levels No and Yes to indicate whether the store is in an urban or rural location (Yes = 2, No = 1), qualitative predictor
--   `US` - A factor with levels No and Yes to indicate whether the store is in the US or not (Yes = 2, No = 1), qualitative predictor
-
-### Part 10a
-
-*Fit a multiple regression model to predict `Sales` using `Price`, `Urban`, and `US`.*
-
-``` r
-carseats_multiple_lm <- lm(Sales ~ Price + Urban + US, data = Carseats)
-summary(carseats_multiple_lm)
-```
-
-    ## 
-    ## Call:
-    ## lm(formula = Sales ~ Price + Urban + US, data = Carseats)
-    ## 
-    ## Residuals:
-    ##     Min      1Q  Median      3Q     Max 
-    ## -6.9206 -1.6220 -0.0564  1.5786  7.0581 
-    ## 
-    ## Coefficients:
-    ##              Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept) 13.043469   0.651012  20.036  < 2e-16 ***
-    ## Price       -0.054459   0.005242 -10.389  < 2e-16 ***
-    ## UrbanYes    -0.021916   0.271650  -0.081    0.936    
-    ## USYes        1.200573   0.259042   4.635 4.86e-06 ***
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## Residual standard error: 2.472 on 396 degrees of freedom
-    ## Multiple R-squared:  0.2393, Adjusted R-squared:  0.2335 
-    ## F-statistic: 41.52 on 3 and 396 DF,  p-value: < 2.2e-16
-
-The contrasts for the qualitative predictors `Urban` and `US` are as shown below:
-
-``` r
-contrasts(Carseats$Urban)
-```
-
-    ##     Yes
-    ## No    0
-    ## Yes   1
-
-``` r
-contrasts(Carseats$US)
-```
-
-    ##     Yes
-    ## No    0
-    ## Yes   1
-
-### Part 10b
-
-*Provide an interpretation of each coefficient in the model. Be careful—some of the variables in the model are qualitative!*
-
--   The coefficient for `Price` is -0.05446. This means that for every dollar the company charges for the car seats, the average unit sales **decreases** by about **54.46 units**.
--   The coefficient for `UrbanYes` is -0.02192. This means that on average, stores in urban locations sell **21.92 less units** than stores in rural locations.
--   The coefficient for `US` is 1.201. This means that on average, stores in the United States sell **1201 more units** than stores outside of the United States.
-
-### Part 10c
-
-*Write out the model in equation form, being careful to handle the qualitative variables properly.*
-
-![](equations/ch3_ex_10c_answer.png) <!-- $$ y_i = 13.043 - (0.054 \times x_{i1}) - (0.022 \times x_{i2}) + (1.201 \times x_{i3}) + \epsilon $$ -->
-
-![](equations/ch3_ex_10c_qualitative1.png) <!-- $$ \text{where } x_{i2} =\begin{cases}1 & \text{if }i\text{th store is in an urban location}\\0 & \text{if }i\text{th store is in a rural location}\end{cases} $$ -->
-
-![](equations/ch3_ex_10c_qualitative2.png) <!-- $$ \text{where } x_{i3} =\begin{cases}1 & \text{if }i\text{th store is in the US}\\0 & \text{if }i\text{th store is not in the US}\end{cases} $$ -->
-
-### Part 10d
-
-*For which of the predictors can you reject the null hypothesis H<sub>0</sub>: β<sub>j</sub> = 0?*
-
-We can reject the null hypothesis for the predictors `Price` and `US`, based on the p-values for these two predictors being very low. In other words, we infer that there is a significant relationship between `Price` and `Sales`, as well as `US` and `Sales`.
-
-### Part 10e
-
-*On the basis of your response to the previous question, fit a smaller model that only uses the predictors for which there is evidence of association with the outcome.*
-
-``` r
-carseats_smaller_lm <- lm(Sales ~ Price + US, data = Carseats)
-summary(carseats_smaller_lm)
-```
-
-    ## 
-    ## Call:
-    ## lm(formula = Sales ~ Price + US, data = Carseats)
-    ## 
-    ## Residuals:
-    ##     Min      1Q  Median      3Q     Max 
-    ## -6.9269 -1.6286 -0.0574  1.5766  7.0515 
-    ## 
-    ## Coefficients:
-    ##             Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept) 13.03079    0.63098  20.652  < 2e-16 ***
-    ## Price       -0.05448    0.00523 -10.416  < 2e-16 ***
-    ## USYes        1.19964    0.25846   4.641 4.71e-06 ***
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## Residual standard error: 2.469 on 397 degrees of freedom
-    ## Multiple R-squared:  0.2393, Adjusted R-squared:  0.2354 
-    ## F-statistic: 62.43 on 2 and 397 DF,  p-value: < 2.2e-16
-
-### Part 10f
-
-*How well do the models in (a) and (e) fit the data?*
-
-    ##                            Model   RSE Rsquared
-    ## 1 Model with Price, Urban and US 2.472   0.2393
-    ## 2        Model with Price and US 2.469   0.2393
-
-Both models exhibit similar levels of RSE (residual squared error), and explain about 24% of the variance in `sales`.
-
-### Part 10g
-
-*Using the model from (e), obtain 95% confidence intervals for the coefficient(s).*
-
-``` r
-confint(carseats_smaller_lm)
-```
-
-    ##                   2.5 %      97.5 %
-    ## (Intercept) 11.79032020 14.27126531
-    ## Price       -0.06475984 -0.04419543
-    ## USYes        0.69151957  1.70776632
-
-### Part 10h
-
-*Is there evidence of outliers or high leverage observations in the model from (e)?*
-
-``` r
-par(mfrow = c(2,2))
-plot(carseats_smaller_lm, id.n = 5)
-```
-
-![](chapter3_applied_files/figure-markdown_github/q10%20diagnostic%20plots-1.png)
-
-From the residuals-fitted values plot, we see that there are some outliers (indices 51 and 377 show the greatest residuals), however most of these outliers do not have significant leverage.
-From the residuals-leverage plot, there is one high-leverage observation but it does not have a residual that is large enough to exert significant influence on the model.
-
-Question 11
------------
-
-*In this problem we will investigate the t-statistic for the null hypothesis H<sub>0</sub> : β = 0 in simple linear regression without an intercept. To begin, we generate a predictor x and a response y as follows.*
-
-``` r
-set.seed(1)
-x <- rnorm(100)
-y <- 2 * x + rnorm(100)
-```
-
-### Part 11a
-
-*Perform a simple linear regression of y onto x , without an intercept. Report the coefficient estimate ˆβ, the standard error of this coefficient estimate, and the t-statistic and p-value associated with the null hypothesis H<sub>0</sub>: β = 0. Comment on these results. (You can perform regression without an intercept using the command `lm(y ~ x + 0)`.)*
-
-``` r
-nointercept_yx_lm <- lm(y ~ x + 0)
-summary(nointercept_yx_lm)$coefficients
-```
-
-    ##   Estimate Std. Error  t value     Pr(>|t|)
-    ## x 1.993876  0.1064767 18.72593 2.642197e-34
-
-The estimated coefficient ˆβ is very close to the true value of β (which is 2). The standard error for ˆβ is also very small relative to the estimated value, which creates a very large t-statistic and very small p-value.
-The likelihood of obtaining this estimate of β, assuming the null hypothesis is true, would be this p-value, and so we can infer that this is unlikely and thus reject the null hypothesis. Therefore we conclude that there is some relationship between X and Y.
-
-### Part 11b
-
-*Now perform a simple linear regression of x onto y without an intercept, and report the coefficient estimate, its standard error, and the corresponding t-statistic and p-values associated with the null hypothesis H<sub>0</sub>: β = 0. Comment on these results.*
-
-``` r
-nointercept_xy_lm <- lm(x ~ y + 0)
-summary(nointercept_xy_lm)$coefficients
-```
-
-    ##    Estimate Std. Error  t value     Pr(>|t|)
-    ## y 0.3911145 0.02088625 18.72593 2.642197e-34
-
-The t-statistic and p-value are in fact the same as those obtained in (a). Based on the small p-value, we can also reject the null hypothesis that β = 0, and likewise conclude that there is some relationship between Y and X.
-
-### Part 11c
-
-*What is the relationship between the results obtained in (a) and (b)?*
-
-The estimated coefficient obtained in (b) is approximately the reciprocal of the estimated coefficient in (a), because the linear model used in (b) is the inverse of the model in (a).
-
-### Part 11d (in progress)
-
-For the regression of Y onto X without an intercept, the t-statistic for H<sub>0</sub>: β = 0 takes the form ˆβ/SE(ˆβ), where ˆβ is given by (3.38), and where
-
-![](equations/ch3_ex_11d_qn1.png) <!-- $$ \text{SE}(\hat{\beta}) =  \sqrt{\frac{\sum_{i=1}^{n} (y_i - x_i\hat{\beta})^2}{(n-1)\sum_{i'=1}^{n} x_{i'}^2}} $$ -->
-
-(These formulas are slightly different from those given in Sections 3.1.1 and 3.1.2, since here we are performing regression without an intercept.) Show algebraically, and confirm numerically in R , that the t-statistic can be written as
-
-### Part 11e
-
-*Using the results from (d), argue that the t-statistic for the regression of `y` onto `x` is the same as the t-statistic for the regression of `x` onto `y`.*
-
-The above expression for the t-statistic would yield the same value if we replaced x<sub>i</sub> with y<sub>i</sub> and y<sub>i</sub> with x<sub>i</sub> (when we perform regression of `x` onto `y`). Therefore the t-statistic would be the same for both regression models.
-
-### Part 11f
-
-*In `R`, show that when regression is performed with an intercept, the t-statistic for H<sub>0</sub>: β<sub>1</sub> = 0 is the same for the regression of `y` onto `x` as it is for the regression of `x` onto `y`.*
-
-We generate a predictor `x1` and response `y1` as follows:
-
-``` r
-set.seed(2)
-x1 <- rnorm(100)
-y1 <- 2 * x1 + 3 + # example intercept is 3
-    rnorm(100) # error term
-```
-
-The regression of `y` onto `x` yields the following t-statistic:
-
-``` r
-intercept_yx_lm <- lm(y1 ~ x1)
-summary(intercept_yx_lm)$coefficients
-```
-
-    ##             Estimate Std. Error  t value     Pr(>|t|)
-    ## (Intercept) 3.027769 0.09891863 30.60868 5.842604e-52
-    ## x1          1.952897 0.08566001 22.79823 5.778822e-41
-
-The regression of `x` onto `y` yields the following t-statistic:
-
-``` r
-intercept_xy_lm <- lm(x1 ~ y1)
-summary(intercept_xy_lm)$coefficients
-```
-
-    ##               Estimate Std. Error   t value     Pr(>|t|)
-    ## (Intercept) -1.3093167 0.07281857 -17.98053 8.443464e-33
-    ## y1           0.4308278 0.01889742  22.79823 5.778822e-41
-
-We can see from the above output that the t-statistic for β<sub>1</sub> is the same for both regression models.
-
-Question 12
------------
-
-*This problem involves simple linear regression without an intercept.*
-
-### Part 12a
-
-*Recall that the coefficient estimate ˆβ for the linear regression of Y onto X without an intercept is given by (3.38). Under what circumstance is the coefficient estimate for the regression of X onto Y the same as the coefficient estimate for the regression of Y onto X?*
-
-ˆβ for the linear regression of Y onto X is given by:
-
-![](equations/ch3_ex_5_qn2.png)
-
-If we were to perform regression of X onto Y: the coefficient estimate ˆβ<sub>y</sub> would be:
-
-![](equations/ch3_ex_12a_answer1.png) <!-- \hat{\beta}_y = \frac{(\sum_{i'=1}^{n}y_{i'} x_{i'})}{(\sum_{i'=1}^{n}y_{i'}^2)} -->
-
-The two coefficient estimates would be the the same if:
-
--   the true linear coefficient is close to 1 (since one coefficient is the reciprocal of the other)
--   the sum of squares for X and sum of squares for Y are the same
-
-![](equations/ch3_ex_12a_answer2.png)
-
-### Part 12b
-
-*Generate an example in `R` with n = 100 observations in which the coefficient estimate for the regression of X onto Y is different from the coefficient estimate for the regression of Y onto X.*
-
-``` r
-set.seed(12)
-x_12b <- rnorm(100)
-y_12b <- x_12b + rnorm(100, mean = 0, sd = 1)  # Y = X + e
-coefficients(lm(y_12b ~ x_12b))
-```
-
-    ## (Intercept)       x_12b 
-    ##  0.01026637  1.01838800
-
-``` r
-coefficients(lm(x_12b ~ y_12b))
-```
-
-    ## (Intercept)       y_12b 
-    ## -0.02194273  0.42960401
-
-### Part 12c (Needs review)
-
-*Generate an example in `R` with n = 100 observations in which the coefficient estimate for the regression of X onto Y is the same as the coefficient estimate for the regression of Y onto X.*
-
-``` r
-# construct x and y off a common set of random values so that the linear coefficient is close to 1
-set.seed(123)
-base <- rnorm(100)
-
-# x contains some random noise
-x_12c <- base + rnorm(100, mean = 0, sd = 0.01)
-# sum of squares for x
-SSx_12c <- sum(x_12c^2) 
-
-# construct first 99 values of y
-y_12c <- base[1:99] + rnorm(99, mean = 0, sd = 0.01)
-# 100th value of y is determined such that the sums of squares would be equal,
-# and based on whether the corresponding x value is positive/negative
-if(x_12c[100] < 0){
-    last_y <- -(sqrt(SSx_12c - sum(y_12c^2)))
-} else {
-    last_y <- sqrt(SSx_12c - sum(y_12c^2))
-}
-y_12c <- append(y_12c, last_y)
-
-coefficients(lm(y_12c ~ x_12c))
-```
-
-    ## (Intercept)       x_12c 
-    ## 0.001852879 0.999692890
-
-``` r
-coefficients(lm(x_12c ~ y_12c))
-```
-
-    ##  (Intercept)        y_12c 
-    ## -0.001833896  1.000092705

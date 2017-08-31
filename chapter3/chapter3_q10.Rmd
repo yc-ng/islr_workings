@@ -1,0 +1,127 @@
+---
+title: "Chapter 3 Exercises - Question 10"
+output: 
+  github_document:
+    toc: true
+    toc_depth: 3
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE)
+library(MASS)
+library(ISLR)
+library(dplyr)
+source("interaction.R")
+```
+
+
+## Question 10
+*This question should be answered using the `Carseats` data set.*
+
+We load the `Carseats` data set and examine the structure:
+
+```{r carseats intro}
+data("Carseats")
+str(Carseats)
+```
+
+We can see that our variables of interest can be classified as quantitative and categorical:  
+
+* `Sales` - Unit sales (in thousands) at each location, quantitative response  
+* `Price` - Price company charges for car seats at each site, quantitative predictor  
+* `Urban` - A factor with levels No and Yes to indicate whether the store is in an urban or rural location (Yes = 2, No = 1), qualitative predictor  
+* `US` - A factor with levels No and Yes to indicate whether the store is in the US or not (Yes = 2, No = 1), qualitative predictor
+
+
+### Part 10a 
+*Fit a multiple regression model to predict `Sales` using `Price`, `Urban`, and `US`.*
+
+```{r carseats lm}
+carseats_multiple_lm <- lm(Sales ~ Price + Urban + US, data = Carseats)
+summary(carseats_multiple_lm)
+```
+
+The contrasts for the qualitative predictors `Urban` and `US` are as shown below:
+
+```{r carseats contrasts}
+contrasts(Carseats$Urban)
+contrasts(Carseats$US)
+```
+
+### Part 10b
+*Provide an interpretation of each coefficient in the model. Be careful—some of the variables in the model are qualitative!*
+
+```{r include=FALSE}
+carseats_mlm_coef <- 
+    summary(carseats_multiple_lm)$coefficients %>% 
+    signif(4)
+```
+
+* The coefficient for `Price` is `r carseats_mlm_coef[2,1]`. This means that for every dollar the company charges for the car seats, the average unit sales **decreases** by about **54.46 units**.  
+* The coefficient for `UrbanYes` is `r carseats_mlm_coef[3,1]`. This means that on average, stores in urban locations sell **21.92 less units** than stores in rural locations.
+* The coefficient for `US` is `r carseats_mlm_coef[4,1]`. This means that on average, stores in the United States sell **1201 more units** than stores outside of the United States.
+
+### Part 10c
+*Write out the model in equation form, being careful to handle the qualitative variables properly.*
+
+![](equations/ch3_ex_10c_answer.png)
+<!-- $$ y_i = 13.043 - (0.054 \times x_{i1}) - (0.022 \times x_{i2}) + (1.201 \times x_{i3}) + \epsilon $$ -->
+
+![](equations/ch3_ex_10c_qualitative1.png)
+<!-- $$ \text{where } x_{i2} =\begin{cases}1 & \text{if }i\text{th store is in an urban location}\\0 & \text{if }i\text{th store is in a rural location}\end{cases} $$ -->
+
+![](equations/ch3_ex_10c_qualitative2.png)
+<!-- $$ \text{where } x_{i3} =\begin{cases}1 & \text{if }i\text{th store is in the US}\\0 & \text{if }i\text{th store is not in the US}\end{cases} $$ -->
+
+### Part 10d
+*For which of the predictors can you reject the null hypothesis H~0~: β~j~ = 0?*
+
+We can reject the null hypothesis for the predictors `Price` and `US`, based on the p-values for these two predictors being very low. In other words, we infer that there is a significant relationship between `Price` and `Sales`, as well as `US` and `Sales`.
+
+### Part 10e
+*On the basis of your response to the previous question, fit a smaller model that only uses the predictors for which there is evidence of association with the outcome.*
+
+```{r}
+carseats_smaller_lm <- lm(Sales ~ Price + US, data = Carseats)
+summary(carseats_smaller_lm)
+```
+
+
+### Part 10f 
+*How well do the models in (a) and (e) fit the data?*
+
+```{r model fit, echo=FALSE}
+model_name <- c("Model with Price, Urban and US", 
+                "Model with Price and US")
+RSE <- c(signif(summary(carseats_multiple_lm)$sigma, 4),
+         signif(summary(carseats_smaller_lm)$sigma, 4))
+R2 <- c(signif(summary(carseats_multiple_lm)$r.squared, 4),
+           signif(summary(carseats_smaller_lm)$r.squared, 4))
+Adj.R2 <- c(signif(summary(carseats_multiple_lm)$adj.r.squared, 4),
+            signif(summary(carseats_smaller_lm)$adj.r.squared, 4))
+as.data.frame(list(Model = model_name, 
+                   RSE = RSE, 
+                   Rsquared = R2))
+```
+
+Both models exhibit similar levels of RSE (residual squared error), and explain about 24% of the variance in `sales`. 
+
+### Part 10g
+*Using the model from (e), obtain 95% confidence intervals for the coefficient(s).*
+
+```{r}
+confint(carseats_smaller_lm)
+```
+
+
+### Part 10h 
+*Is there evidence of outliers or high leverage observations in the model from (e)?*
+
+```{r q10 diagnostic plots, fig.width=12, fig.height=9}
+par(mfrow = c(2,2))
+plot(carseats_smaller_lm, id.n = 5)
+```
+
+From the residuals-fitted values plot, we see that there are some outliers (indices 51 and 377 show the greatest residuals), however most of these outliers do not have significant leverage.  
+From the residuals-leverage plot, there is one high-leverage observation but it does not have a residual that is large enough to exert significant influence on the model.
+
