@@ -24,7 +24,23 @@ Conceptual Exercises
 
 **1a.** The **inflexible** method should perform better. The large sample size will create a large amount of variance (when different data sets are tested), while the small number of predictors will create a small amount of bias. This will increase the test MSE for flexible methods to a greater extent than for inflexible methods.
 
+Alternative:
+
+    The flexible approach would perform better as it would fit the data closer.  
+    For a large sample size, the flexible approach will obtain a better fit than the inflexible approach.
+
 **1b.** The **flexible** method should perform better. With a large number of predictors, an inflexible method will introduce a large amount of bias while trying to approximate the situation. The small sample size will create a small amount of variance. The test MSE for inflexible methods will increase by a greater amount.
+
+Alternative:
+
+    The inflexible approach would perform better as the flexible method would 
+    overfit the small number of observations.
+
+    The inflexible method should perform better; the small sample makes it more 
+    difficult for the flexible method to obtain a good fit. 
+    The large number of predictors may also affect the accuracy of the flexible 
+    method if noise (non-relevant) predictors affect the separation of observations 
+    that would be related under the relevant predictors (curse of dimensionality).
 
 **1c.** The **flexible** method should perform better. The inflexible method will introduce a large amount of bias while trying to approximate this non-linear relationship, and thus produce a higher test MSE.
 
